@@ -1,0 +1,51 @@
+version: '3.9'
+services:
+
+  eurekaserver:
+    build:
+      context: ./eureka
+    container_name: eurekaserver
+    ports:
+      - "8761:8761"
+    networks:
+      - box-network
+
+  userservice:
+    build:
+      context: ./userservice
+    container_name: userservice
+    environment:
+      - MONGO_URI=mongodb+srv://admin:abc123password@assessmentcluster.1zkdesg.mongodb.net/userservice_db?retryWrites=true&w=majority&appName=assessmentcluster
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaserver:8761/eureka/
+    depends_on:
+      - eurekaserver
+    networks:
+      - box-network
+
+  boxservice:
+    build:
+      context: ./boxservice
+    container_name: boxservice
+    environment:
+      - MONGO_URI=mongodb+srv://admin:abc123password@assessmentcluster.1zkdesg.mongodb.net/boxservice_db?retryWrites=true&w=majority&appName=assessmentcluster
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaserver:8761/eureka/
+    depends_on:
+      - eurekaserver
+    networks:
+      - box-network
+
+  itemservice:
+    build:
+      context: ./itemservice
+    container_name: itemservice
+    environment:
+      - MONGO_URI=mongodb+srv://admin:abc123password@assessmentcluster.1zkdesg.mongodb.net/itemservice_db?retryWrites=true&w=majority&appName=assessmentcluster
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaserver:8761/eureka/
+    depends_on:
+      - eurekaserver
+    networks:
+      - box-network
+
+networks:
+  box-network:
+    driver: bridge

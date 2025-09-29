@@ -1,0 +1,8 @@
+
+
+spring:
+  data:
+    mongodb:
+      uri: ${MONGO_URI}
+  application:
+    name: boxservice
