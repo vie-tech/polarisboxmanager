@@ -4,8 +4,10 @@ package com.ativie.itemservice.model;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,6 +16,8 @@ import java.util.UUID;
 @Data
 @Builder
 @Document(collection = "items")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Item {
 
     private ObjectId id;

@@ -16,6 +16,20 @@ services:
       retries: 5
       start_period: 40s
 
+  apigateway:
+    build:
+      context: ./apigateway
+    container_name: apigateway
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka/
+    ports:
+      - "8080:8080"
+    depends_on:
+      eureka:
+        condition: service_healthy
+    networks:
+      - box-network
+
   userservice:
     build:
       context: ./userservice

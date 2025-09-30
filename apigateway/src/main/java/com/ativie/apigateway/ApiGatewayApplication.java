@@ -1,4 +1,5 @@
-package com.ativie.userservice;
+package com.ativie.apigateway;
+
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,8 +7,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class UserserviceApplication {
+public class ApiGatewayApplication {
     public static void main(String[] args) {
-        SpringApplication.run(UserserviceApplication.class, args);
+        SpringApplication.run(ApiGatewayApplication.class, args);
     }
 }
