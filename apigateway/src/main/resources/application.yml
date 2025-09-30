@@ -12,19 +12,21 @@ spring:
           lower-case-service-id: true
       routes:
         - id: boxservice
-          uri: lb://BOXSERVICE
+          uri: lb://boxservice
           predicates:
             - Path=/api/box/**
           filters:
             - StripPrefix=1
+
         - id: itemservice
-          uri: lb://ITEMSERVICE
+          uri: lb://itemservice
           predicates:
             - Path=/api/item/**
           filters:
             - StripPrefix=1
+
         - id: userservice
-          uri: lb://USERSERVICE
+          uri: lb://userservice
           predicates:
             - Path=/api/user/**
           filters:

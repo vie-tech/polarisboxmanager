@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 
-@FeignClient(name = "ITEMSERVICE", path =  "/api/item")
+@FeignClient(name = "ITEMSERVICE", path =  "/item")
 public interface ItemServiceClient {
 
     @GetMapping("/item_exists/{itemCode}")

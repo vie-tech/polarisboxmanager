@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/box")
+@RequestMapping("/box")
 public class BoxController {
     private final BoxService boxService;
 
