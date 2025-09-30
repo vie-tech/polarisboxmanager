@@ -1,4 +1,4 @@
 package com.ativie.itemservice.dto;
 
-public record ItemExistsRequest() {
+public record ItemExistsRequest(String itemPublicId) {
 }

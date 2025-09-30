@@ -1,4 +1,4 @@
 package com.ativie.userservice.dto;
 
-public record CreateNewUserResponse() {
+public record CreateNewUserResponse(boolean success, String message) {
 }

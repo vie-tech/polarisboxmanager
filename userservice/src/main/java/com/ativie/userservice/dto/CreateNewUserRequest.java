@@ -1,4 +1,6 @@
 package com.ativie.userservice.dto;
 
-public record CreateNewUserRequest() {
+import jakarta.validation.constraints.NotNull;
+
+public record CreateNewUserRequest(@NotNull String email, @NotNull String username) {
 }

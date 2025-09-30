@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,7 +55,7 @@ public class Box {
     @Builder.Default
     private BoxState state = BoxState.IDLE;
 
-    private List<String> itemsLoaded;
+    private List<String> itemsLoaded = new ArrayList<>();
 
 
     @Builder.Default
@@ -62,8 +63,12 @@ public class Box {
     @Indexed(unique = true)
     private String txref = UUID.randomUUID().toString();
 
+    private boolean charging;
+
     @CreatedDate
     private Instant createdAt;
+
+    private Instant lastStateChange;
 
     @LastModifiedDate
     private Instant lastModifiedAt;
