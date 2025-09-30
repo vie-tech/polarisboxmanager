@@ -1,15 +1,16 @@
 package com.ativie.itemservice.controller;
 
 
-import com.ativie.itemservice.dto.CreateItemRequest;
-import com.ativie.itemservice.dto.CreateItemResponse;
+import com.ativie.itemservice.dto.*;
 import com.ativie.itemservice.model.Item;
 import com.ativie.itemservice.service.ItemService;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/item")
@@ -37,5 +38,11 @@ public class ItemController {
         return ResponseEntity.ok(new CreateItemResponse(newItem.getName(),
                 newItem.getCode(), newItem.getWeight(),
                 newItem.getItemPublicId()));
+    }
+
+    @PostMapping("/items_in_box")
+    public GetItemsInBoxResponse getAllItemsWithItemCode(@Valid @RequestBody GetItemsWithCodeRequest request) {
+        List<GetItemWithCodeResponse> items = itemService.getItemsWithCode(request);
+        return new GetItemsInBoxResponse(true, items);
     }
 }

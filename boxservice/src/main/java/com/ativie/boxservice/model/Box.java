@@ -39,7 +39,8 @@ public class Box {
     @Min(1)
     @Max(500)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private double weightLimit = 500;
+    @Builder.Default
+    private double weightLimit = 500.0;
 
     @Min(0)
     @Max(100)

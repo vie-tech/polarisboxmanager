@@ -1,8 +1,7 @@
 package com.ativie.boxservice.service;
 
 
-import com.ativie.boxservice.dto.AddItemToBoxRequest;
-import com.ativie.boxservice.dto.CreateBoxRequest;
+import com.ativie.boxservice.dto.*;
 import com.ativie.boxservice.enums.BoxState;
 import com.ativie.boxservice.feign.ItemServiceClient;
 import com.ativie.boxservice.feign.UserServiceClient;
@@ -28,7 +27,8 @@ public class BoxService {
     public Box createNewBox(CreateBoxRequest request) {
         Boolean exists;
         try {
-            exists = userServiceClient.checkUserExists(request.userPublicId()).getBody();
+            exists =
+                    userServiceClient.checkUserExists(request.userPublicId()).getBody();
         } catch (Exception e) {
             throw new IllegalStateException(
                     "Cannot verify user existence at the moment. Please try " +
@@ -63,12 +63,11 @@ public class BoxService {
                     "exceeded");
         }
 
-        List<String> itemsAlreadyInBox = box.getItemsLoaded();
+   /*     List<String> itemsAlreadyInBox = box.getItemsLoaded();
         if (itemsAlreadyInBox.contains(request.itemCode())) {
             throw new IllegalStateException("Cannot add item: Already Exists " +
                     "in box");
-        }
-
+        }*/
 
 
         Boolean itemExists;
@@ -90,5 +89,32 @@ public class BoxService {
         box.setCurrentWeightCapacity(box.getCurrentWeightCapacity() + request.itemWeight());
         boxRepository.save(box);
 
+    }
+
+
+    public List<GetItemWithCodeResponse> getAllItemsInsideBox(String boxPublicId) {
+        Box box = boxRepository.findByBoxPublicId(boxPublicId)
+                .orElseThrow(() -> new IllegalArgumentException("Box does not exist"));
+
+        List<String> codes = box.getItemsLoaded();
+
+
+        GetItemsInBoxResponse response = itemserviceClient.getAllItemsWithItemCode(
+                new GetItemsWithCodeRequest(codes)
+        );
+
+        return response.items();
+    }
+
+    public List<GetAllIdleBoxesResponse> getAllIdleBoxes() {
+        return boxRepository.findByState(BoxState.IDLE)
+                .stream()
+                .map(box -> new GetAllIdleBoxesResponse(
+                        box.getName(),
+                        box.getTxref(),
+                        box.getWeightLimit(),
+                        box.getBatteryCapacity()
+                ))
+                .toList();
     }
 }

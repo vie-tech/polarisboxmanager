@@ -1,15 +1,15 @@
 package com.ativie.boxservice.controller;
 
 
-import com.ativie.boxservice.dto.AddItemToBoxResponse;
-import com.ativie.boxservice.dto.CreateBoxRequest;
-import com.ativie.boxservice.dto.CreateBoxResponse;
-import com.ativie.boxservice.dto.AddItemToBoxRequest;
+import com.ativie.boxservice.dto.*;
 import com.ativie.boxservice.model.Box;
 import com.ativie.boxservice.service.BoxService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/box")
@@ -36,5 +36,20 @@ public class BoxController {
         boxService.addItem(request);
         return ResponseEntity.ok(new AddItemToBoxResponse(true,
                 String.format("Item %s added to box", request.itemName())));
+    }
+
+    @GetMapping("/checkLoadedItems/{boxPublicId}")
+    public GetLoadedItemsResponse getLoadedItem(@PathVariable String boxPublicId) {
+        List<GetItemWithCodeResponse> items =
+                boxService.getAllItemsInsideBox(boxPublicId);
+        return new GetLoadedItemsResponse(true, items);
+    }
+
+    @GetMapping("/getIdle")
+    public ResponseEntity<Map<String, Object>> getIdleBoxes() {
+        List<GetAllIdleBoxesResponse> idleBoxes = boxService.getAllIdleBoxes();
+        return ResponseEntity.ok(
+                Map.of("success", true, "boxes", idleBoxes)
+        );
     }
 }
