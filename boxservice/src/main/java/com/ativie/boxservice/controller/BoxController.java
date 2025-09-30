@@ -52,4 +52,10 @@ public class BoxController {
                 Map.of("success", true, "boxes", idleBoxes)
         );
     }
+
+    @GetMapping("/getBattery/{txref}")
+    public ResponseEntity<Map<String, Object>> getBatteryLevel(@PathVariable String txref) {
+        GetBatteryLevelResponse box = boxService.returnBoxBatteryLevel(txref);
+        return ResponseEntity.ok(Map.of("success", true, "box", box));
+    }
 }

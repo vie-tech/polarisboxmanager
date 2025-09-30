@@ -63,7 +63,7 @@ public class BoxStateScheduler {
         List<Box> idleBoxes = boxRepository.findByState(BoxState.IDLE);
 
         for (Box box : idleBoxes) {
-            if (box.getBatteryCapacity() < 100.0 && box.getState() == BoxState.IDLE) {
+            if (box.getBatteryCapacity() < 100.0) {
                 double newBattery = Math.min(100.0, box.getBatteryCapacity() + 10.0);
                 box.setBatteryCapacity(newBattery);
                 box.setCharging(true);

@@ -94,14 +94,16 @@ public class BoxService {
 
     public List<GetItemWithCodeResponse> getAllItemsInsideBox(String boxPublicId) {
         Box box = boxRepository.findByBoxPublicId(boxPublicId)
-                .orElseThrow(() -> new IllegalArgumentException("Box does not exist"));
+                .orElseThrow(() -> new IllegalArgumentException("Box does not" +
+                        " exist"));
 
         List<String> codes = box.getItemsLoaded();
 
 
-        GetItemsInBoxResponse response = itemserviceClient.getAllItemsWithItemCode(
-                new GetItemsWithCodeRequest(codes)
-        );
+        GetItemsInBoxResponse response =
+                itemserviceClient.getAllItemsWithItemCode(
+                        new GetItemsWithCodeRequest(codes)
+                );
 
         return response.items();
     }
@@ -116,5 +118,13 @@ public class BoxService {
                         box.getBatteryCapacity()
                 ))
                 .toList();
+    }
+
+    public GetBatteryLevelResponse returnBoxBatteryLevel(String txref) {
+        Box box =
+                boxRepository.findByTxref(txref).orElseThrow(() -> new IllegalArgumentException("This box does not exist"));
+        return new GetBatteryLevelResponse(box.getName(),
+                box.getBatteryCapacity(), box.getWeightLimit());
+
     }
 }
