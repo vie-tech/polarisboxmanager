@@ -1,5 +1,8 @@
 Setup & Run
 
+# Clone
+git clone https://github.com/vie-tech/polarisboxmanager.git
+
 # Build
 mvn clean package -DskipTests
 
